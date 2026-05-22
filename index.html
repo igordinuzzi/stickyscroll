@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Sticky Scroll Layout</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --title:#334155;
+    --body:#64748B;
+
+    --purple:#755EF6;
+    --purple-light:#EDEFFF;
+
+    --container:1280px;
+
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#F8F8F8;
+    color:var(--title);
+    overflow-x:hidden;
+}
+
+/* =========================
+SECTION
+========================= */
+
+.feature-showcase{
+
+    position:relative;
+
+    max-width:1280px;
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:520px 673px;
+
+    justify-content:space-between;
+
+    column-gap:88px;
+
+    padding:0 40px;
+
+}
+
+/* =========================
+LEFT
+========================= */
+
+.left-column{
+    position:relative;
+}
+
+.feature-row{
+
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+
+}
+
+/* =========================
+TEXT ANIMATION
+========================= */
+
+.feature-content{
+
+    width:520px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    opacity:0.15;
+
+    transform:translateY(40px);
+
+    transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+
+    will-change:opacity, transform;
+
+}
+
+/* ACTIVE STATE */
+
+.feature-row.active .feature-content{
+
+    opacity:1;
+
+    transform:translateY(0px);
+
+}
+
+/* TITLE */
+
+.feature-content h2{
+
+    font-size:36px;
+    line-height:1.1;
+    font-weight:700;
+
+    letter-spacing:-1px;
+
+    color:var(--title);
+
+    margin-bottom:24px;
+
+}
+
+.visual-image img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+/* SUBTITLE */
+
+.feature-description{
+
+    font-size:16px;
+    line-height:1.6;
+
+    color:var(--title);
+
+    margin-bottom:48px;
+
+}
+
+/* LIST */
+
+.feature-list{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:28px;
+
+}
+
+/* ITEM */
+
+.feature-item{
+
+    display:flex;
+    align-items:flex-start;
+
+    gap:16px;
+
+}
+
+/* ICON */
+
+.icon{
+
+    width:32px;
+    height:32px;
+
+    min-width:32px;
+
+    border-radius:999px;
+
+    background:var(--purple-light);
+    border:1px solid var(--purple);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin-top:2px;
+
+}
+
+.icon svg{
+    width:14px;
+    height:14px;
+}
+
+/* BULLET TITLE */
+
+.feature-item h4{
+
+    font-size:18px;
+    line-height:1.3;
+    font-weight:600;
+
+    color:var(--title);
+
+    margin-bottom:4px;
+
+}
+
+/* BULLET PARAGRAPH */
+
+.feature-item p{
+
+    font-size:16px;
+    line-height:1.4;
+
+    color:var(--body);
+
+    white-space:nowrap;
+
+}
+
+/* =========================
+RIGHT
+========================= */
+
+.right-column{
+    position:relative;
+}
+
+/* STICKY */
+
+.sticky-visual{
+
+    position:sticky;
+
+    top:calc(50vh - 259.5px);
+
+    height:519px;
+
+    display:flex;
+    align-items:center;
+
+}
+
+/* WRAPPER */
+
+.visual-wrapper{
+
+    position:relative;
+
+    width:673px;
+    height:519px;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    background:#D8C1B3;
+
+}
+
+/* IMAGE */
+
+.visual-image{
+
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    opacity:0;
+
+    transform:translateY(16px) scale(0.98);
+
+    transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+
+}
+
+.visual-image.active{
+
+    opacity:1;
+    transform:translateY(0px) scale(1);
+
+}
+
+/* PLACEHOLDER */
+
+.placeholder{
+
+    width:100%;
+    height:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+    linear-gradient(
+        135deg,
+        #D8C1B3,
+        #C8A997
+    );
+
+    color:white;
+
+    font-size:32px;
+    font-weight:600;
+
+}
+
+/* =========================
+PROGRESS DOTS
+========================= */
+
+.progress-nav{
+
+    position:fixed;
+
+    left:32px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    display:flex;
+    flex-direction:column;
+
+    gap:18px;
+
+    z-index:10;
+
+}
+
+.progress-dot{
+
+    width:10px;
+    height:10px;
+
+    border-radius:999px;
+
+    background:#CBD5E1;
+
+    transition:0.3s ease;
+
+}
+
+.progress-dot.active{
+
+    background:var(--purple);
+
+    transform:scale(1.6);
+
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:1200px){
+
+    .feature-showcase{
+
+        grid-template-columns:1fr;
+
+        gap:80px;
+
+        padding:80px 24px;
+
+    }
+
+    .sticky-visual{
+
+        position:relative;
+        top:auto;
+
+        height:auto;
+
+    }
+
+    .visual-wrapper{
+
+        width:100%;
+        aspect-ratio:673/519;
+
+        height:auto;
+
+    }
+
+    .feature-row{
+
+        min-height:auto;
+
+        padding-bottom:120px;
+
+    }
+
+    .feature-content{
+        width:100%;
+    }
+
+    .feature-item p{
+        white-space:normal;
+    }
+
+    .progress-nav{
+        display:none;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .feature-content h2{
+        font-size:32px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- PROGRESS -->
+
+<div class="progress-nav">
+
+    <div class="progress-dot active"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+
+</div>
+
+<section class="feature-showcase">
+
+    <!-- LEFT -->
+
+    <div class="left-column">
+
+        <!-- SECTION 1 -->
+
+        <div class="feature-row" data-image="0">
+
+            <div class="feature-content">
+
+                <h2>
+                    Daily operations
+                </h2>
+
+                <p class="feature-description">
+                    Smartpms centralizes and automates your daily tasks—
+                    reducing workload and boosting efficiency.
+                </p>
+
+                <div class="feature-list">
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Dashboard</h4>
+
+                            <p>
+                                See revenue, bookings, arrivals,
+                                and departures of the day.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Front desk planner</h4>
+
+                            <p>
+                                Assign check-ins, check-outs and daily
+                                tasks to your team.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Calendar</h4>
+
+                            <p>
+                                View and manage bookings and rates
+                                with advanced filters.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                                        <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Calendar</h4>
+
+                            <p>
+                                View and manage bookings and rates
+                                with advanced filters.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                                        <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Calendar</h4>
+
+                            <p>
+                                View and manage bookings and rates
+                                with advanced filters.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SECTION 2 -->
+
+        <div class="feature-row" data-image="1">
+
+            <div class="feature-content">
+
+                <h2>
+                    Accounting & payments
+                </h2>
+
+                <p class="feature-description">
+                    Manage invoices, payments and reports
+                    with complete visibility in real time.
+                </p>
+
+                <div class="feature-list">
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Payment automation</h4>
+
+                            <p>
+                                Manage deposits, balances,
+                                penalties, and reminders.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Invoicing & receipts</h4>
+
+                            <p>
+                                Create compliant invoices,
+                                receipts and tax documents.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Business insights</h4>
+
+                            <p>
+                                Monitor margins, costs and revenue
+                                in real time.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                                        <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Business insights</h4>
+
+                            <p>
+                                Monitor margins, costs and revenue
+                                in real time.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                                        <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Business insights</h4>
+
+                            <p>
+                                Monitor margins, costs and revenue
+                                in real time.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SECTION 3 -->
+
+        <div class="feature-row" data-image="2">
+
+            <div class="feature-content">
+
+                <h2>
+                    Sales strategy
+                </h2>
+
+                <p class="feature-description">
+                    Increase direct bookings and improve
+                    distribution through automation.
+                </p>
+
+                <div class="feature-list">
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Booking engine</h4>
+
+                            <p>
+                                Increase direct bookings
+                                with a seamless experience.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Integrated upselling</h4>
+
+                            <p>
+                                Sell extras directly
+                                via the booking engine.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Dynamic pricing</h4>
+
+                            <p>
+                                Native integration with
+                                Smartpricing RMS.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Dynamic pricing</h4>
+
+                            <p>
+                                Native integration with
+                                Smartpricing RMS.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="feature-item">
+
+                        <div class="icon">
+
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M6 12L10 16L18 8"
+                                    stroke="#755EF6"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Dynamic pricing</h4>
+
+                            <p>
+                                Native integration with
+                                Smartpricing RMS.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="right-column">
+
+        <div class="sticky-visual">
+
+            <div class="visual-wrapper">
+
+<div class="visual-image active">
+
+    <img src="imgs/01.jpg" alt="Dashboard">
+
+</div>
+
+<div class="visual-image active">
+
+    <img src="imgs/02.jpg" alt="Dashboard">
+
+</div>
+
+<div class="visual-image active">
+
+    <img src="imgs/03.jpg" alt="Dashboard">
+
+</div>
+
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+const sections = document.querySelectorAll(".feature-row");
+const images = document.querySelectorAll(".visual-image");
+const dots = document.querySelectorAll(".progress-dot");
+
+const observer = new IntersectionObserver(
+
+(entries) => {
+
+    entries.forEach((entry) => {
+
+        const index = entry.target.dataset.image;
+
+        if(entry.isIntersecting){
+
+            /* ACTIVE TEXT */
+
+            sections.forEach((section) => {
+                section.classList.remove("active");
+            });
+
+            entry.target.classList.add("active");
+
+            /* ACTIVE IMAGE */
+
+            images.forEach((img) => {
+                img.classList.remove("active");
+            });
+
+            images[index].classList.add("active");
+
+            /* ACTIVE DOT */
+
+            dots.forEach((dot) => {
+                dot.classList.remove("active");
+            });
+
+            dots[index].classList.add("active");
+
+        }
+
+    });
+
+},
+
+{
+    threshold:0.45
+}
+
+);
+
+sections.forEach((section) => {
+    observer.observe(section);
+});
+
+</script>
+
+</body>
+</html>
